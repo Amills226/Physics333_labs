@@ -1,0 +1,43 @@
+#define o_pin 13
+// uncomment the next line if you want verbose warnings
+#define WARNINGS
+void setup() {
+  pinMode(o_pin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  int i;
+  for(i = 0; i < 100; i++){
+    pwm_100(40, i, 10, 13);
+  }
+
+   if(i = 100)//for(i = 100; i >= 0; i--)
+   {
+     pwm_100(10, 0, 10, 13);
+  }
+ 
+}
+
+void pwm_100(int duration_ms, int power, int PWM_period_us, int output_pin) {
+  /*
+     pwm algorithm that runs with power levels 0-100% (not 0-1000 as previous versions)
+     int duration - how long will the signal be sent out? (ms, [1,???])
+     int power - what average power will be sent (out of 100)
+     int PWM_period_us - what granulatiry will you use in the power (us [5-20])
+     int output_pin - what (Digital) pin are you broadcasting the signal on?
+  */
+
+  unsigned long time_0;
+  time_0 = millis();
+
+  while ((millis() - time_0) < duration_ms ) {
+    digitalWrite(output_pin, HIGH);
+    delayMicroseconds(power * PWM_period_us);
+
+    digitalWrite(output_pin, LOW);
+    delayMicroseconds((100 - power)*PWM_period_us);
+  }
+  return;
+}
