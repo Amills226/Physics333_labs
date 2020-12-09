@@ -1,0 +1,27 @@
+#define o_pin 13
+#define PI 3.1415926535897932384626433832795
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(o_pin, OUTPUT);
+  Serial.begin(9600);
+  unsigned long t0, t1, t_run;
+
+  t0 = millis(); // start time
+  int Tms = 200; // sine wave period in ms
+  t1 = (millis() - t0) % Tms; // how far into a single wave are we?
+  t_run = millis() - t0; // How long have we been making waves?
+  int pwr;
+  double w = 2.0 * acos(-1.0) / Tms;
+
+  //  generate 3 periods
+  while (t_run < 10 * Tms) {
+
+    t_run = millis() - t0;
+    t1 = (millis() - t0) % Tms;
+    pwr = (int)(500.0 * (sin(2 * PI * 440 * t1)));
+    digitalWrite(13, pwr);
+  }
+}
+
+void loop() {
+}
