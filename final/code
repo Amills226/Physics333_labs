@@ -1,5 +1,3 @@
-//Anna Millerhagen 
-//original code found on https://github.com/Notthemarsian/FM-radio
 #include <VMA11.h>
 
 /*#include <newchip.h>
@@ -48,6 +46,7 @@ char rdsBuffer[10];
 
 void setup()
 {
+  Serial.begin(9600);
   // Set internal pull up resistors on inputs
   pinMode(Station1, INPUT_PULLUP);
   pinMode(Station2, INPUT_PULLUP); 
@@ -72,9 +71,9 @@ void setup()
     Wire.endTransmission(true);
   }
   
-  channel = 1440; // NRK P1
+  channel = 89.5; // KQAL
   radio.setChannel(channel);
-  volume = 4;
+  volume = 10;
   radio.setVolume(volume);
   // Initialise OLED display
   display.begin(SSD1306_SWITCHCAPVCC, OLED_address);  // initialize with the I2C addr 0x3C (different from Adafruit)
@@ -86,6 +85,7 @@ void loop()
   // Volume down
   if (digitalRead(volDown) == LOW) 
    {
+    Serial.println("Volume down");
      if (volume > 0) volume--;
      radio.setVolume(volume);
      UpdateDisplay();
@@ -94,6 +94,7 @@ void loop()
   // Volume up 
   if (digitalRead(volUp) == LOW) 
    {
+     Serial.println("Volume up");
      if (volume < 15) volume++;
      radio.setVolume(volume);
      UpdateDisplay();
@@ -102,6 +103,7 @@ void loop()
   // Channel down
   if (digitalRead(channelDown) == LOW) 
    {
+     Serial.println("The state changed from LOW to HIGH");
      channel = radio.seekDown();
      UpdateDisplay();
      delay(100);
@@ -109,6 +111,7 @@ void loop()
   // Channel up
   if (digitalRead(channelUp) == LOW) 
    {
+     Serial.println("The state changed from LOW to HIGH");
      channel = radio.seekUp();
      UpdateDisplay();
      delay(100);
