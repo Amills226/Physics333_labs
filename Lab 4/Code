@@ -1,0 +1,30 @@
+int outputpin= 0;
+int sensorInput;   
+double temp;
+void setup()
+{
+Serial.begin(9600);
+}
+
+void loop()
+{
+ /* int rawvoltage= analogRead(outputpin);
+float millivolts= (rawvoltage/1024.0) * 500;
+float fahrenheit= millivolts/10;
+Serial.print(fahrenheit);
+Serial.println(" degrees Fahrenheit, ");*/
+  int rawvoltage= analogRead(outputpin);
+  sensorInput = analogRead(A0);        //read the analog sensor and store it
+  temp = (double)sensorInput / 1024;   //find percentage of input reading
+  temp = temp * 5;                     //multiply by 5V to get voltage
+  temp = temp - 0.5;                   //Subtract the offset 
+  temp = temp * 20;   
+  Serial.println(temp);
+  
+  float celsius= (temp - 32) * (5.0/9.0);
+  
+  Serial.print (celsius);
+  Serial.println(" degrees Celsius");
+  delay(1000);
+
+}
